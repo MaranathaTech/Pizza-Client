@@ -79,25 +79,24 @@ class RequestHandler: NSObject {
         
         if  let myURL = URL(string: url){
         
-        let headers = [
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-        ]
+            let headers = [
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            ]
+            
+            Alamofire.request(myURL, method: .get, parameters: nil, encoding: JSONEncoding.default,headers: headers).responseJSON(completionHandler: { (response:DataResponse<Any>) in
         
-        Alamofire.request(myURL, method: .get, parameters: nil, encoding: JSONEncoding.default,headers: headers).responseJSON(completionHandler: { (response:DataResponse<Any>) in
-        
-        if let data = response.result.value{
-        print(response.result.value ?? "")
-        result = data as! [[String : Any]];
-        completion(result);
+                if let data = response.result.value{
+                    print(response.result.value ?? "")
+                    result = data as! [[String : Any]];
+                    completion(result);
+                }
+                else{
+                    result = [["error":"error"]];
+                    completion(result);
+                }
+            })
         }
-        else{
-            result = [["error":"error"]];
-            completion(result);
-            }
-        }
-        
-        )}
         
     }
        
@@ -128,17 +127,12 @@ class RequestHandler: NSObject {
                     completion(result);
                 }
                 
-            }
-                
-                
-            )}
+            })
+        }
         
     }
     
     
-    
-    
-    
-    
+
     
 }
